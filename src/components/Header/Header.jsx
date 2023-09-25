@@ -1,6 +1,26 @@
 import Navbar from "../Navbar/Navbar";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+
 
 const Header = () => {
+    const loc = useLocation();
+    console.log(loc);
+
+    useEffect(() => {
+        console.log(loc.pathname);
+
+        if (loc.pathname === "/") {
+            document.title = `Phone-home`;
+        } else {
+            document.title = `Phone ${loc.pathname.replace("/", "-")}`;
+        }
+
+        if (loc.state) {
+            document.title = ` ${loc.state}`;
+        }
+    }, [loc.pathname]);
+
     return (
         <div>
             <Navbar></Navbar>
