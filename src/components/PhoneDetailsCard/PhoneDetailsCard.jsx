@@ -1,7 +1,33 @@
 import PropTypes from 'prop-types';
 
 const PhoneDetailsCard = ({ phone }) => {
-    const { image, phone_name, brand_name, price, description } = phone || {};
+    const { id, image, phone_name, brand_name, price, description } = phone || {};
+
+
+    const handleAddToFavorite = () => {
+
+        const addedFavoriteArray = [];
+
+        const favoriteItems = JSON.parse(localStorage.getItem('favorites'));
+
+        if (!favoriteItems) {
+            addedFavoriteArray.push(phone);
+            localStorage.setItem('favorites', JSON.stringify(addedFavoriteArray));
+            alert("Product added");
+        }
+        else {
+            const isExist = favoriteItems.find(phone => phone.id === id);
+            if (!isExist) {
+                addedFavoriteArray.push(...favoriteItems, phone);
+                localStorage.setItem('favorites', JSON.stringify(addedFavoriteArray));
+                alert("Product added");
+            }
+            else {
+                alert('Already taken');
+            }
+        }
+    }
+
 
     return (
         <div className='shadow-xl rounded-xl p-5 flex gap-5'>
@@ -19,7 +45,7 @@ const PhoneDetailsCard = ({ phone }) => {
                     </div>
 
                     <div>
-                        <button className='btn w-full my-5'>See Details</button>
+                        <button onClick={handleAddToFavorite} className='btn w-full my-5 text-red-600 font-bold'>Add to Favorite</button>
                     </div>
                 </div>
             </div>
